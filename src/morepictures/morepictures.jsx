@@ -7,7 +7,7 @@ import {
   Text,
   Center,
 } from "@chakra-ui/react";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { useCredStore } from '../reusables/store/store';
 
 export default function MorePictures() {

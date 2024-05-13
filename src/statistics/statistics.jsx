@@ -7,13 +7,11 @@ import {
   Center,
   VStack
 } from "@chakra-ui/react";
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Plot from 'react-plotly.js';
-import { useCredStore } from "../reusables/store/store";
 
 export default function Statistics() {
   const theme = useTheme();
-  const [ token, setToken ] = useState("");
   var date = new Date();
   var date_1 = new Date(Date.now() - 864e5);
   var date_2 = new Date(Date.now() - (2*864e5));
@@ -26,8 +24,8 @@ export default function Statistics() {
     values: [0, 0, 0, 0, 0, 0, 0],
   });
   const [types, setTypes] = useState({ 
-    types: ['Motor', 'Mobil', 'Truk', 'Bus'], 
     percentages: [10, 20, 30, 40],
+    types: ['Motor', 'Mobil', 'Truk', 'Bus'], 
   });
   const [numStation, setNumStation] = useState('500');
   const [numVehicle, setNumVehicle] = useState('100');
@@ -36,34 +34,30 @@ export default function Statistics() {
   const [minDuration, setMinDuration] = useState('1');
   const [maxDuration, setMaxDuration] = useState('24');
 
-  // const effectRan = useRef(false);
+  const fetchInfo = async () => {
+    try {
+      const res = await fetch("https://go-parking-system-saxdgtzhza-et.a.run.app/info", {
+      method: 'GET',
+    })
+    const data = await res.json();
+    if (res.ok) {
+      setStats(data.stats)
+      setTypes(data.types)
+      setNumStation(data.numStation)
+      setNumVehicle(data.numVehicle)
+      setNumTransactions(data.numTransaction)
+      setAvgDuration(data.avgDuration)
+      setMinDuration(data.minDuration)
+      setMaxDuration(data.maxDuration)
+    }
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
-  // useEffect(() => {
-  //   if (!effectRan.current) {
-  //     const cred = useCredStore.getState();
-  //     setToken(cred.token.toString());
-      
-  //     fetch("https://go-parking-system-saxdgtzhza-et.a.run.app/", {
-  //       method: 'GET',
-  //     })
-  //     .then(res => {
-  //       const data = res.json();
-  //       if (res.status === 200) {
-  //         setStats(data.stats)
-  //         setTypes(data.types)
-  //         setNumStation(data.numStation)
-  //         setNumVehicle(data.numVehicle)
-  //         setNumTransactions(data.numTransactions)
-  //         setAvgDuration(data.avgDuration)
-  //         setMinDuration(data.minDuration)
-  //         setMaxDuration(data.maxDuration)
-  //       }
-  //     })
-  //     .catch(err => { console.log(err) });
-  //   }
-  
-  //   return () => effectRan.current = true;
-  // }, [token]);
+  useEffect(() => {
+    fetchInfo();
+  }, []);
 
   return(
     <Container maxW={'-moz-max-content'} p={0} h={'100vh'}>
