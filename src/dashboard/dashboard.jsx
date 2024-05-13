@@ -17,7 +17,7 @@ import {
   Divider,
   Link
 } from "@chakra-ui/react";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect} from "react";
 import Plot from 'react-plotly.js';
 import ImagePopup from "../reusables/imagepopup/imagepopup";
 import { useCredStore } from '../reusables/store/store';
@@ -38,28 +38,28 @@ export default function Dashboard() {
   var date_6 = new Date(Date.now() - (6*864e5));
   const [spending, setSpending] = useState(
     { 
+      amount: [0, 0, 0, 0, 0, 0, 0],
       dates: [String(date_6.getDate()).padStart(2, '0')+'/'+String(date_6.getMonth() + 1).padStart(2, '0')+'/'+String(date_6.getFullYear()), String(date_5.getDate()).padStart(2, '0')+'/'+String(date_5.getMonth() + 1).padStart(2, '0')+'/'+String(date_5.getFullYear()), String(date_4.getDate()).padStart(2, '0')+'/'+String(date_4.getMonth() + 1).padStart(2, '0')+'/'+String(date_4.getFullYear()), String(date_3.getDate()).padStart(2, '0')+'/'+String(date_3.getMonth() + 1).padStart(2, '0')+'/'+String(date_3.getFullYear()), String(date_2.getDate()).padStart(2, '0')+'/'+String(date_2.getMonth() + 1).padStart(2, '0')+'/'+String(date_2.getFullYear()), String(date_1.getDate()).padStart(2, '0')+'/'+String(date_1.getMonth() + 1).padStart(2, '0')+'/'+String(date_1.getFullYear()), String(date.getDate()).padStart(2, '0')+'/'+String(date.getMonth() + 1).padStart(2, '0')+'/'+String(date.getFullYear())], 
-      money: [0, 0, 0, 0, 0, 0, 0],
     },
   );
   const [route, setRoute] = useState([
     { 
-      title: 'Parking Station #1', 
       description: String(date.getDate()).padStart(2, '0')+'/'+String(date.getMonth() + 1).padStart(2, '0')+'/'+String(date.getFullYear()),
-      type: 'parking',
-      img: 'https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png',
-    },
-    { 
-      title: 'Toll Gate #2', 
-      description: String(date.getDate()).padStart(2, '0')+'/'+String(date.getMonth() + 1).padStart(2, '0')+'/'+String(date.getFullYear()),
-      type: 'toll',
-      img: 'https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png',
-    },
-    { 
       title: 'Parking Station #3', 
-      description: String(date.getDate()).padStart(2, '0')+'/'+String(date.getMonth() + 1).padStart(2, '0')+'/'+String(date.getFullYear()),
-      type: 'parking',
       img: 'https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png',
+      type: 'parking',
+    },
+    { 
+      description: String(date.getDate()).padStart(2, '0')+'/'+String(date.getMonth() + 1).padStart(2, '0')+'/'+String(date.getFullYear()),
+      title: 'Parking Station #3', 
+      img: 'https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png',
+      type: 'parking',
+    },
+    { 
+      description: String(date.getDate()).padStart(2, '0')+'/'+String(date.getMonth() + 1).padStart(2, '0')+'/'+String(date.getFullYear()),
+      title: 'Parking Station #3', 
+      img: 'https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png',
+      type: 'parking',
     }
   ]);
   const [timeIn, setTimeIn] = useState('15:01');
@@ -72,38 +72,38 @@ export default function Dashboard() {
   const [ modalTitle, setModalTitle ] = useState('');
   const [ modalContent, setModalContent ] = useState('');
 
-  // const effectRan = useRef(false);
+  const fetchInfo = async() => {
+    const cred = await useCredStore.getState();
+    setToken(cred.token.toString());  
+    if (token !== "") {
+      try {
+        const res = await fetch("https://go-parking-system-saxdgtzhza-et.a.run.app/user/profile", {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': token,
+        },
+      })
+      const data = await res.json();
+      if (res.ok) {
+        setImage(data.image)
+        setSpending(data.stats)
+        setRoute(data.route)
+        setTimeIn(data.timeIn)
+        setTimeOut(data.timeOut)
+        setMinDuration(data.minDuration)
+        setMaxDuration(data.maxDuration)
+      }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }
 
-  // useEffect(() => {
-  //   if (!effectRan.current) {
-  //     const cred = useCredStore.getState();
-  //     setToken(cred.token.toString());
-      
-  //     fetch("https://go-parking-system-saxdgtzhza-et.a.run.app/", {
-  //       method: 'GET',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //         'Accept': 'application/json',
-  //         'Authorization': token,
-  //       },
-  //     })
-  //     .then(res => {
-  //       const data = res.json();
-  //       if (res.status === 200) {
-  //         setImage(data.image)
-  //         setSpending(data.stats)
-  //         setRoute(data.route)
-  //         setTimeIn(data.timeIn)
-  //         setTimeOut(data.timeOut)
-  //         setMinDuration(data.minDuration)
-  //         setMaxDuration(data.maxDuration)
-  //       }
-  //     })
-  //     .catch(err => { console.log(err) });
-  //   }
-  
-  //   return () => effectRan.current = true;
-  // }, [token]);
+  useEffect(() => {
+    fetchInfo();
+  }, [token]);
 
   return(
     <Container maxW={'-moz-max-content'} p={0} h={'100vh'}>
@@ -133,7 +133,7 @@ export default function Dashboard() {
                     data={[
                       {
                         x: spending.dates,
-                        y: spending.money,
+                        y: spending.amount,
                         type: 'bar',
                         marker: {color: '#813E00'},
                       },
