@@ -29,10 +29,10 @@ export default function Register() {
   const [ buttonColors, setButtonColors ] = useState([])
   const [ buttonDisabled, setButtonDisabled ] = useState([])
 
-  // useEffect(() => {
-  //   const cred = useCredStore.getState();
-  //   setToken(cred.token.toString());
-  // }, []);
+  useEffect(() => {
+    const cred = useCredStore.getState();
+    setToken(cred.token.toString());
+  }, []);
 
   const registerVehicle = async () => {
     fetch("https://go-parking-system-saxdgtzhza-et.a.run.app/vehicle/register/", {
@@ -43,12 +43,13 @@ export default function Register() {
         'Authorization': token,
       },
       body: JSON.stringify({
-        plate: plate,
+        plate_number: plate,
         type: type
       }),
     })
     .then(res => {
-      if (res.status === 200) {
+      console.log(res);
+      if (res.ok) {
         setModalTitle('Registrasi Kendaraan Berhasil!')
         setModalContent('Anda dapat mendaftarkan kendaraan lain atau kembali ke halaman utama.')
         let tempTexts = ['Kembali']

@@ -14,37 +14,37 @@ export default function MorePictures() {
   const theme = useTheme();
   const [ token, setToken ] = useState("");
   const [images, setImages] = useState([
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSUfCSUcQjv9wwaMyA_xU_dlzgESwCnzURwnomksTgSVw&s",
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSUfCSUcQjv9wwaMyA_xU_dlzgESwCnzURwnomksTgSVw&s",
+    "https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png",
+    "https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png",
   ]);
 
-  // const effectRan = useRef(false);
+  const fetchInfo = async() => {
+    const cred = await useCredStore.getState();
+    setToken(cred.token.toString());  
+    if (token !== "") {
+      try {
+        const res = await fetch("https://go-parking-system-saxdgtzhza-et.a.run.app/user/images", {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': token,
+        },
+      })
+      const data = await res.json();
+      if (res.ok) {
+        setImages(data.images)
+      }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }
 
-  // useEffect(() => {
-  //   if (!effectRan.current) {
-  //     const cred = useCredStore.getState();
-  //     setToken(cred.token.toString());
+  useEffect(() => {
+    fetchInfo();
+  }, [token]);
 
-  //     fetch("https://go-parking-system-saxdgtzhza-et.a.run.app/", {
-  //       method: 'GET',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //         'Accept': 'application/json',
-  //         'Authorization': token,
-  //       },
-  //     })
-  //     .then(res => {
-  //       const data = res.json();
-  //       if (res.status === 200) {
-  //         setImages(data.images)
-  //       }
-  //     })
-  //     .catch(err => { console.log(err) });
-  //   }
-  
-  //   return () => effectRan.current = true;
-  // }, [token]);
-  
   return(
     images.length > 0 && 
     <Container maxW={'-moz-max-content'} p={0}>
