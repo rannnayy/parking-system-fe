@@ -130,7 +130,7 @@ export default function Statistics() {
               <VStack spacing={0}>
                 <Text fontSize={'md'} fontWeight={500} color={theme.colors.black} p={0} paddingBottom={1} lineHeight={1}>Durasi Maksimal</Text>
                 <Text fontSize={'3xl'} fontWeight={700} color={theme.colors.choco} p={0} lineHeight={1}>{maxDuration}</Text>
-                <Text fontSize={'xs'} fontWeight={500} color={theme.colors.choco} p={0} lineHeight={1}>jam</Text>
+                <Text fontSize={'xs'} fontWeight={500} color={theme.colors.choco} p={0} lineHeight={1}>menit</Text>
               </VStack>
             </Box>
             {/* AverageIncome (day) */}
@@ -138,7 +138,7 @@ export default function Statistics() {
               <VStack spacing={0}>
                 <Text fontSize={'md'} fontWeight={500} color={theme.colors.black} p={0} paddingBottom={1} lineHeight={1}>Rerata Pendapatan</Text>
                 <Text fontSize={'3xl'} fontWeight={700} color={theme.colors.choco} p={0} lineHeight={1}>{numTransactions}</Text>
-                <Text fontSize={'xs'} fontWeight={500} color={theme.colors.choco} p={0} lineHeight={1}>juta</Text>
+                <Text fontSize={'xs'} fontWeight={500} color={theme.colors.choco} p={0} lineHeight={1}>ribu Rp</Text>
               </VStack>
             </Box>
             {/* AverageVehicles (day) */}

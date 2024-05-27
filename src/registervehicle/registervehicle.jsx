@@ -100,10 +100,10 @@ export default function Register() {
           <FormControl id="type" isRequired={true}>
             <FormLabel fontWeight={300} >TIPE KENDARAAN</FormLabel>
             <Select placeholder='Pilih salah satu' required borderColor={theme.colors.milo} onChange={(e) => setType(e.target.value)}>
-              <option value={'MOTORCYCLE'}>Motor</option>
-              <option value={'CAR'}>Mobil</option>
-              <option value={'TRUCK'}>Truk</option>
-              <option value={'BUS'}>Bus</option>
+              <option value={'Motor'}>Motor</option>
+              <option value={'Mobil'}>Mobil</option>
+              <option value={'Truk'}>Truk</option>
+              <option value={'Bus'}>Bus</option>
             </Select>
           </FormControl>
           <Button bg={theme.colors.milo} color={'white'} _hover={{ bg: theme.colors.cream, color:theme.colors.choco }} border={'none'} borderRadius={'20px'} onClick={() => registerVehicle()}>Daftarkan Kendaraan</Button>
