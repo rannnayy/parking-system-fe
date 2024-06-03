@@ -15,7 +15,8 @@ import {
   Center,
   VStack,
   Divider,
-  Link
+  Link,
+  HStack
 } from "@chakra-ui/react";
 import { useState, useEffect} from "react";
 import Plot from 'react-plotly.js';
@@ -66,6 +67,7 @@ export default function Dashboard() {
   const [timeOut, setTimeOut] = useState('16:00');
   const [minDuration, setMinDuration] = useState('1');
   const [maxDuration, setMaxDuration] = useState('24');
+  const [billable, setBillable] = useState(0);
 
   // For Image Popup
   const [ openModal, setOpenModal ] = useState(false);
@@ -87,6 +89,7 @@ export default function Dashboard() {
       })
       const data = await res.json();
       if (res.ok) {
+        setBillable(data.billable)
         setImage(data.image)
         setSpending(data.stats)
         setRoute(data.route)
@@ -107,7 +110,7 @@ export default function Dashboard() {
 
   return(
     <Container maxW={'-moz-max-content'} p={0} h={'100vh'}>
-      <Center height={'95vh'} width={'100vw'} bgColor={'#FFFAF0'} p={0}>
+      <Center height={'95vh'} width={'100vw'} bgColor={'#FFFAF0'} p={0}>        
         <Flex direction={'row'} wrap={'wrap'} basis={'center'} align={'stretch'} justify={'center'} columnGap={'2vw'}>
           {/* Left Pane - Image */}
           <Box w='20vw' bg='white' p={'4vh'} paddingTop={'2vh'} border={'2px'} borderColor={'#AE6E4E'} borderRadius={'15px'}>
@@ -124,6 +127,11 @@ export default function Dashboard() {
 
           {/* Right Pane */}
           <Flex direction={'column'} wrap={'wrap'} basis={'center'} align={'stretch'} justify={'center'} rowGap={'1vw'}>
+            <HStack>
+              <Text color={theme.colors.black} fontSize={'xl'}>Anda belum membayar sebesar Rp</Text>
+              <Text color={theme.colors.brown} fontSize={'2xl'} fontWeight={700}>{billable}</Text>
+              <Text color={theme.colors.black} fontSize={'xl'}>!!!</Text>
+            </HStack>
             {/* Graph */}
             <Flex direction={'row'} wrap={'wrap'} basis={'center'} align={'stretch'} justify={'center'}>
               <Box w='50vw' h='40vh' bg='white' p={4} border={'2px'} borderColor={'#AE6E4E'} borderRadius={'15px'}>
