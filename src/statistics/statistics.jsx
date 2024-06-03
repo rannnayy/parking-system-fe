@@ -41,7 +41,6 @@ export default function Statistics() {
     })
     const data = await res.json();
     if (res.ok) {
-      console.log(data)
       setStats(data.stats)
       setTypes(data.types)
       setNumStation(data.numStation)
