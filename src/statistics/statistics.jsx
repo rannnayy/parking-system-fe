@@ -29,7 +29,7 @@ export default function Statistics() {
   });
   const [numStation, setNumStation] = useState('500');
   const [numVehicle, setNumVehicle] = useState('100');
-  const [numTransactions, setNumTransactions] = useState('10');
+  const [numTransactions, setNumTransactions] = useState(0);
   const [avgDuration, setAvgDuration] = useState('30');
   const [minDuration, setMinDuration] = useState('1');
   const [maxDuration, setMaxDuration] = useState('24');
@@ -45,7 +45,7 @@ export default function Statistics() {
       setTypes(data.types)
       setNumStation(data.numStation)
       setNumVehicle(data.numVehicle)
-      setNumTransactions(data.numTransaction)
+      setNumTransactions(Math.round(data.stats.values.reduce((a, b) => a + b, 0)/7))
       setAvgDuration(data.avgDuration)
       setMinDuration(data.minDuration)
       setMaxDuration(data.maxDuration)
@@ -138,7 +138,7 @@ export default function Statistics() {
               <VStack spacing={0}>
                 <Text fontSize={'md'} fontWeight={500} color={theme.colors.black} p={0} paddingBottom={1} lineHeight={1}>Rerata Pendapatan</Text>
                 <Text fontSize={'3xl'} fontWeight={700} color={theme.colors.choco} p={0} lineHeight={1}>{numTransactions}</Text>
-                <Text fontSize={'xs'} fontWeight={500} color={theme.colors.choco} p={0} lineHeight={1}>ribu Rp</Text>
+                <Text fontSize={'xs'} fontWeight={500} color={theme.colors.choco} p={0} lineHeight={1}>Rupiah</Text>
               </VStack>
             </Box>
             {/* AverageVehicles (day) */}
