@@ -49,6 +49,7 @@ export default function Login() {
       setOpenModal(true)
     } else {
       try {
+        var start_time = performance.now();
         const res = await fetch("https://go-parking-system-saxdgtzhza-et.a.run.app/auth/login/", {
           method: 'POST',
           headers: {
@@ -61,11 +62,13 @@ export default function Login() {
           }),
         })
         const data = await res.json();
+        var end_time = performance.now();
+        console.log(end_time - start_time);
   
         if (res.status === 200) {
           setToken(data.token)
           console.log("success:", data);
-          window.location.href = '/dashboard'
+          // window.location.href = '/dashboard'
         } else {
           console.log("error:", data);
           setModalTitle('Gagal Masuk')

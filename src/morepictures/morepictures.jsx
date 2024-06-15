@@ -22,6 +22,7 @@ export default function MorePictures() {
     const cred = await useCredStore.getState();
     setToken(cred.token.toString());  
     if (token !== "") {
+      var start_time = performance.now();
       try {
         const res = await fetch("https://go-parking-system-saxdgtzhza-et.a.run.app/user/images", {
         method: 'GET',
@@ -32,6 +33,9 @@ export default function MorePictures() {
         },
       })
       const data = await res.json();
+      var end_time = performance.now();
+      console.log(end_time - start_time);
+
       if (res.ok) {
         setImages(data.images)
       }

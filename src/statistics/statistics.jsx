@@ -35,11 +35,15 @@ export default function Statistics() {
   const [maxDuration, setMaxDuration] = useState('24');
 
   const fetchInfo = async () => {
+    var start_time = performance.now();
     try {
       const res = await fetch("https://go-parking-system-saxdgtzhza-et.a.run.app/info", {
       method: 'GET',
     })
     const data = await res.json();
+    var end_time = performance.now();
+    console.log(end_time - start_time);
+
     if (res.ok) {
       setStats(data.stats)
       setTypes(data.types)

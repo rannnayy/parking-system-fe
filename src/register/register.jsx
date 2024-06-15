@@ -48,6 +48,7 @@ export default function Register() {
       setOpenModal(true)
     } else {
       try {
+        var start_time = performance.now();
         const res = await fetch("https://go-parking-system-saxdgtzhza-et.a.run.app/auth/register/", {
           method: 'POST',
           headers: {
@@ -61,12 +62,13 @@ export default function Register() {
             nik: nik
           }),
         })
-        console.log(res)
         const data = await res.json();
+        var end_time = performance.now();
+        console.log(end_time - start_time);
     
         if (res.ok) {
           console.log("success:", data);
-          window.location.href = '/login'
+          // window.location.href = '/login'
         } else {
           console.log("error:", data);
 

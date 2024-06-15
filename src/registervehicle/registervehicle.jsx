@@ -35,6 +35,7 @@ export default function Register() {
   }, []);
 
   const registerVehicle = async () => {
+    var start_time = performance.now();
     fetch("https://go-parking-system-saxdgtzhza-et.a.run.app/vehicle/register/", {
       method: 'POST',
       headers: {
@@ -48,7 +49,8 @@ export default function Register() {
       }),
     })
     .then(res => {
-      console.log(res);
+      var end_time = performance.now();
+      console.log(end_time - start_time);
       if (res.ok) {
         setModalTitle('Registrasi Kendaraan Berhasil!')
         setModalContent('Anda dapat mendaftarkan kendaraan lain atau kembali ke halaman utama.')

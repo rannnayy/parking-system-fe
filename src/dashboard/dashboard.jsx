@@ -79,6 +79,7 @@ export default function Dashboard() {
     setToken(cred.token.toString());  
     if (token !== "") {
       try {
+        var start_time = performance.now();
         const res = await fetch("https://go-parking-system-saxdgtzhza-et.a.run.app/user/profile", {
         method: 'GET',
         headers: {
@@ -88,6 +89,8 @@ export default function Dashboard() {
         },
       })
       const data = await res.json();
+      var end_time = performance.now();
+      console.log(end_time - start_time);
       if (res.ok) {
         setBillable(data.billable)
         setImage(data.image)
