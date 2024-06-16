@@ -68,7 +68,7 @@ export default function Login() {
         if (res.status === 200) {
           setToken(data.token)
           console.log("success:", data);
-          // window.location.href = '/dashboard'
+          window.location.href = '/dashboard'
         } else {
           console.log("error:", data);
           setModalTitle('Gagal Masuk')

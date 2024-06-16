@@ -68,7 +68,7 @@ export default function Register() {
     
         if (res.ok) {
           console.log("success:", data);
-          // window.location.href = '/login'
+          window.location.href = '/login'
         } else {
           console.log("error:", data);
 
